@@ -1,11 +1,11 @@
 # Bluetooth mapper
-This program allows a configurations of custom action for specified sequence of inputs from your bluetooth headphones.
+This program allows a configuration of custom actions for specified input sequences from your bluetooth headphones.
 This program was made for SkullCandy Crusher ANC 2, so if your headphones have different way of handling input you would need to rewrite InputParser.cs.
 
 You can use HciListener.c for testing.
 
-# Setting up daemon
-To set up this as a daemon you need to create ~/.config/systemd/user/bt-mapper.service and configure it.
+# Setting up a daemon
+To set up this as a daemon with systemd you need to create ~/.config/systemd/user/bt-mapper.service and configure it.
 As an example:
 ```txt
 [Unit]
@@ -30,7 +30,7 @@ and then run ./build.sh
 
 # Config
 To set up custom actions you need to create config.json file in working directory.
-You can create any sequence from available inputs and write any command to be executed as an action.
+You can create any sequence from available inputs and write any terminal command to be executed as an action.
 
 ```json
 [
@@ -46,5 +46,8 @@ You can create any sequence from available inputs and write any command to be ex
 ]
 ```
 
-Note that you would need to disable all system reactions if you don't want to change volume during entering the sequence.
+# Notes
+This program was made for Linux.  
+
+Note that you would need to disable all system reactions to headphone input if you don't want to change volume while entering the sequence.
 You can remap same behaviour for single command sequence.
