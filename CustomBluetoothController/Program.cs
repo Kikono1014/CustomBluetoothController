@@ -6,27 +6,35 @@ namespace CustomBluetoothController;
 
 public class Program
 {
-    private static byte _volume = 93;
-    private const int ComboDelay = 2000;
-    private const int SingleDelay = 800;
-    private static bool? IsPaused = null;
+    private const int _comboDelay = 2000;
+    private const int _singleDelay = 800;
+
+    private static SequenceTreeNode _tree = new(InputType.Undefined);
+    private static SequenceTreeNode _current = new(InputType.Undefined);
+
+    private static Timer _timer = null!;
+
+    private static void Init()
+    {
+        _tree = BuildTree();
+        _current = _tree;
+        
+        _timer = new Timer(_ => 
+        {
+            CommitAction(_current.Action);
+            _current = _tree;
+        }, null, Timeout.Infinite, Timeout.Infinite);
+
+    }
 
     static async Task Main()
     {
+        Init();
+
         using var cts = new CancellationTokenSource();
         Console.CancelKeyPress += (s, e) => { e.Cancel = true; cts.Cancel(); };
         
         using var listener = new HciListener(65535);
-
-        var tree = BuildTree();
-        var current = tree;
-        
-        Timer timer = null!;
-        timer = new Timer(_ => 
-        {
-            CommitAction(current.Action);
-            current = tree;
-        }, null, Timeout.Infinite, Timeout.Infinite);
 
         try
         {
@@ -34,55 +42,13 @@ public class Program
             {
                 if (packet[0] != 5) continue;
                 
-                var input = ParseActionType(packet);
-
-                // it sends those ad "keep alive"
+                var input = InputParser.ParseInput(packet);
+                
                 if (input == InputType.Undefined) continue;
-                if (IsPaused != null && (bool)IsPaused && input == InputType.Pause) continue;
-                if (IsPaused != null && !(bool)IsPaused && input == InputType.Play) continue;
-
-                IsPaused = input switch
-                {
-                    InputType.Play  => false,
-                    InputType.Pause => true,
-                    _ => IsPaused
-                };
                 
+                // Console.WriteLine($"{input}");
 
-                Console.WriteLine($"{input}");
-                
-                timer?.Change(Timeout.Infinite, Timeout.Infinite);
-
-                if (!current.Next.TryGetValue(input, out var nextNode))
-                {
-                    if ((input == InputType.Play || input == InputType.Pause) && 
-                        current.Next.TryGetValue(InputType.PlayPause, out nextNode))
-                    {
-                        // Successfully mapped Play/Pause to the PlayPause node
-                    }
-                }
-
-                if (nextNode == null)
-                {
-                    current = tree;
-                }
-                else
-                {
-                    current = nextNode;
-
-                    if (current.Next.Count == 0)
-                    {
-                        CommitAction(current.Action);
-                        current = tree;
-                    }
-                    else
-                    {
-                        var delay = tree.Next.ContainsValue(current) ? SingleDelay : ComboDelay;
-                        timer?.Change(delay, Timeout.Infinite);
-                    }
-                }
-
-                current.Timestamp = DateTime.Now;
+                ProcessInput(input);
             }
         }
         catch (OperationCanceledException)
@@ -90,31 +56,42 @@ public class Program
             Console.WriteLine("\nListening stopped by user.");
         }
     }
-
-    public static InputType ParseActionType(byte[] packet) => packet.Length switch
+    
+    
+    private static void ProcessInput(InputType input)
     {
-        22 => packet[^2] switch
+        _timer?.Change(Timeout.Infinite, Timeout.Infinite);
+
+        if (!_current.Next.TryGetValue(input, out var nextNode))
         {
-            0x44 => InputType.Play,
-            0x46 => InputType.Pause,
-            0x4B => InputType.Next,
-            0x4C => InputType.Prev,
-            _    => InputType.Undefined
-        },
-        29 => HandleVolumePacket(packet[^1]),
-        _  => InputType.Undefined
-    };
+            if ((input == InputType.Play || input == InputType.Pause) && 
+                _current.Next.TryGetValue(InputType.PlayPause, out nextNode))
+            {
+                // Successfully mapped Play/Pause to the PlayPause node
+            }
+        }
 
-    private static InputType HandleVolumePacket(byte newVolume)
-    {
-        var direction = newVolume.CompareTo(_volume);
-        _volume = newVolume;
+        if (nextNode == null)
+        {
+            _current = _tree;
+        }
+        else
+        {
+            _current = nextNode;
 
-        return direction switch {
-            > 0 => InputType.Up,
-            < 0 => InputType.Down,
-            _   => InputType.Undefined
-        };
+            if (_current.Next.Count == 0)
+            {
+                CommitAction(_current.Action);
+                _current = _tree;
+            }
+            else
+            {
+                var delay = _tree.Next.ContainsValue(_current) ? _singleDelay : _comboDelay;
+                _timer?.Change(delay, Timeout.Infinite);
+            }
+        }
+
+        _current.Timestamp = DateTime.Now;
     }
 
     private static SequenceTreeNode BuildTree()
@@ -131,7 +108,7 @@ public class Program
         {
             foreach (var input in configuration.Sequence)
             {
-                var inputType = ToEnum(input);
+                var inputType = InputParser.ToEnum(input);
                 if (!current.Next.TryGetValue(inputType, out var next))
                 {
                     current.Next[inputType] = new(inputType);
@@ -155,20 +132,5 @@ public class Program
         {
             Process.Start(new ProcessStartInfo("bash", $"-c \"{action}\""));
         }
-    }
-
-    private static InputType ToEnum(string value)
-    {
-        return value switch
-        {
-            "Pause" => InputType.Pause,
-            "Play" => InputType.Play,
-            "PlayPause" => InputType.PlayPause,
-            "Next" => InputType.Next,
-            "Prev" => InputType.Prev,
-            "Up" => InputType.Up,
-            "Down" => InputType.Down,
-            _ => InputType.Undefined,
-        };
     }
 }
