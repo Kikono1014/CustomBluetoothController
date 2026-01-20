@@ -120,7 +120,7 @@ public class Program
     private static SequenceTreeNode BuildTree()
     {
         var config = JsonSerializer.Deserialize<List<ConfigDto>>(
-            File.ReadAllText("/home/kikono/codes/newEra/BluetoothMapper/config.json"),
+            File.ReadAllText("./config.json"),
             new JsonSerializerOptions(){ PropertyNamingPolicy = JsonNamingPolicy.CamelCase }
         )!;
         
