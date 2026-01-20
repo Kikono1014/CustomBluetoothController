@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "waZdQhkojyg=",
+  "success": true,
+  "projectFilePath": "/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/CustomBluetoothController.csproj",
+  "expectedPackageFiles": [
+    "/home/kikono/.nuget/packages/tmds.dbus/0.23.0/tmds.dbus.0.23.0.nupkg.sha512",
+    "/home/kikono/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.9/microsoft.aspnetcore.app.ref.9.0.9.nupkg.sha512"
+  ],
+  "logs": []
+}

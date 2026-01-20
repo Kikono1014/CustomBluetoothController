@@ -1,0 +1,17 @@
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/bin/Release/net9.0/linux-x64/CustomBluetoothController
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/bin/Release/net9.0/linux-x64/CustomBluetoothController.deps.json
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/bin/Release/net9.0/linux-x64/CustomBluetoothController.runtimeconfig.json
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/bin/Release/net9.0/linux-x64/CustomBluetoothController.dll
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/bin/Release/net9.0/linux-x64/CustomBluetoothController.pdb
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/bin/Release/net9.0/linux-x64/Tmds.DBus.dll
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/obj/Release/net9.0/linux-x64/CustomBluetoothController.csproj.AssemblyReference.cache
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/obj/Release/net9.0/linux-x64/CustomBluetoothController.GeneratedMSBuildEditorConfig.editorconfig
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/obj/Release/net9.0/linux-x64/CustomBluetoothController.AssemblyInfoInputs.cache
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/obj/Release/net9.0/linux-x64/CustomBluetoothController.AssemblyInfo.cs
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/obj/Release/net9.0/linux-x64/CustomBluetoothController.csproj.CoreCompileInputs.cache
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/obj/Release/net9.0/linux-x64/CustomBl.35E51606.Up2Date
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/obj/Release/net9.0/linux-x64/CustomBluetoothController.dll
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/obj/Release/net9.0/linux-x64/refint/CustomBluetoothController.dll
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/obj/Release/net9.0/linux-x64/CustomBluetoothController.pdb
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/obj/Release/net9.0/linux-x64/CustomBluetoothController.genruntimeconfig.cache
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/obj/Release/net9.0/linux-x64/ref/CustomBluetoothController.dll

@@ -1,0 +1,2 @@
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/bin/Release/net9.0/linux-x64/publish/CustomBluetoothController.pdb
+/home/kikono/codes/newEra/BluetoothMapper/CustomBluetoothController/bin/Release/net9.0/linux-x64/publish/CustomBluetoothController
